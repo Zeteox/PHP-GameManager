@@ -1,0 +1,15 @@
+services:
+  php-game-manager-db:
+    image: "mysql:8"
+    container_name: "php-game-manager-db"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PHP_DB_ROOT_PSSWD}
+      MYSQL_DATABASE: ${PHP_DB_NAME}
+      MYSQL_USER: ${PHP_DB_USER}
+      MYSQL_PASSWORD: ${PHP_DB_PSSWD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/db_data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
