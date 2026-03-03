@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/database/Database.php';
+require_once ('app/database/Database.php');
 
 // Load environment variables from .env file
 $env = parse_ini_file(__DIR__ . '/../.env');
@@ -47,25 +47,19 @@ function reset_tables(): void
 
 function insert_game(string $title = 'TestGame'): int
 {
-    Database::executeQuery(
-        "INSERT INTO games (title, image, difficulty, release_year, description) VALUES (?, ?, ?, ?, ?)",
-        [$title, 'img.png', 'easy', 2020, 'A test game']
-    );
+    Database::createGame([$title, 'img.png', 'easy', 2020, 'A test game']);
     return (int) Database::getConnection()->lastInsertId();
 }
 
-function insert_achievement(string $title = 'TestAch', int $gameId = 1): int
+function insert_achievement(string $title = 'TestAch'): int
 {
-    Database::executeQuery(
-        "INSERT INTO achievements (name, description, points) VALUES (?, ?, ?)",
-        [$title, 'Ach desc', 10]
-    );
+    Database::createAchievement([$title, 'Ach desc', 10]);
     return (int) Database::getConnection()->lastInsertId();
 }
 
 function insert_genre(string $name = 'RPG'): int
 {
-    Database::executeQuery("INSERT INTO genres (name) VALUES (?)", [$name]);
+    Database::createGenre([$name]);
     return (int) Database::getConnection()->lastInsertId();
 }
 
@@ -132,9 +126,17 @@ assert_test('deleteUser() removes the record', Database::getUserByUsernameOrEmai
 echo "\n=== Games ===\n";
 reset_tables();
 
+// Test createGame() returns a PDOStatement
+$stmt = Database::createGame(['CreatedGame', 'img.png', 'Medium', 2021, 'Created via createGame']);
+assert_test('createGame() returns a PDOStatement', $stmt instanceof PDOStatement);
+$createdGameId = (int) Database::getConnection()->lastInsertId();
+$createdGame = Database::getGameById($createdGameId);
+assert_test('createGame() inserts the correct title', $createdGame !== null && $createdGame['title'] === 'CreatedGame');
+assert_test('createGame() inserts the correct difficulty', $createdGame['difficulty'] === 'Medium');
+
 insert_game('Game A');
 insert_game('Game B');
-assert_test('getAllGames() returns all records', count(Database::getAllGames()) === 2);
+assert_test('getAllGames() returns all records', count(Database::getAllGames()) === 3); // CreatedGame + A + B
 
 $gameId = insert_game('UniqueGame');
 $game = Database::getGameById($gameId);
@@ -143,21 +145,26 @@ assert_test('getGameById() returns null for missing id', Database::getGameById(9
 
 Database::addUser(['gamer', 'gamer@example.com', 'pass']);
 $gamer = Database::getUserByUsernameOrEmail('gamer');
-Database::executeQuery("INSERT INTO user_games (user_id, game_id) VALUES (?, ?)", [$gamer['id'], $gameId]);
+
+// Test addGameToUser()
+Database::addGameToUser($gamer['id'], $gameId);
 $userGames = Database::getAllGamesFromUser($gamer['id']);
-assert_test("getAllGamesFromUser() returns the user's games", count($userGames) === 1 && $userGames[0]['title'] === 'UniqueGame');
+assert_test('addGameToUser() links a game to a user', count($userGames) === 1 && $userGames[0]['title'] === 'UniqueGame');
+assert_test('getAllGamesFromUser() returns the correct game', $userGames[0]['id'] === $gameId);
 
 Database::updateGame(['UpdatedTitle', 'new.png', 'Hard', 2023, 'Updated desc', $gameId]);
 $updatedGame = Database::getGameById($gameId);
 assert_test('updateGame() changes title', $updatedGame['title'] === 'UpdatedTitle');
 assert_test('updateGame() changes difficulty', $updatedGame['difficulty'] === 'Hard');
+assert_test('updateGame() changes release_year', (int)$updatedGame['release_year'] === 2023);
+assert_test('updateGame() changes description', $updatedGame['description'] === 'Updated desc');
 
 $deleteGameId = insert_game('ToDelete');
 Database::deleteGame($deleteGameId);
 assert_test('deleteGame() removes the record', Database::getGameById($deleteGameId) === null);
 
 Database::deleteGameFromUser($gamer['id']);
-assert_test("deleteGameFromUser() removes user-game relations", count(Database::getAllGamesFromUser($gamer['id'])) === 0);
+assert_test('deleteGameFromUser() removes user-game relations', count(Database::getAllGamesFromUser($gamer['id'])) === 0);
 
 // ─────────────────────────────────────────────
 // Achievement tests
@@ -166,9 +173,17 @@ assert_test("deleteGameFromUser() removes user-game relations", count(Database::
 echo "\n=== Achievements ===\n";
 reset_tables();
 
+// Test createAchievement() returns a PDOStatement
+$stmt = Database::createAchievement(['CreatedAch', 'Created desc', 50]);
+assert_test('createAchievement() returns a PDOStatement', $stmt instanceof PDOStatement);
+$createdAchId = (int) Database::getConnection()->lastInsertId();
+$createdAch = Database::getAchievementById($createdAchId);
+assert_test('createAchievement() inserts the correct name', $createdAch !== null && $createdAch['name'] === 'CreatedAch');
+assert_test('createAchievement() inserts the correct points', (int)$createdAch['points'] === 50);
+
 insert_achievement('Ach1');
 insert_achievement('Ach2');
-assert_test('getAllAchievements() returns all records', count(Database::getAllAchievements()) === 2);
+assert_test('getAllAchievements() returns all records', count(Database::getAllAchievements()) === 3); // CreatedAch + Ach1 + Ach2
 
 $achId = insert_achievement('MyAch');
 $ach = Database::getAchievementById($achId);
@@ -177,21 +192,25 @@ assert_test('getAchievementById() returns null for missing id', Database::getAch
 
 Database::addUser(['achiever', 'achiever@example.com', 'pass']);
 $achiever = Database::getUserByUsernameOrEmail('achiever');
-Database::executeQuery("INSERT INTO user_achievements (user_id, achievement_id) VALUES (?, ?)", [$achiever['id'], $achId]);
+
+// Test addAchievementToUser()
+Database::addAchievementToUser($achiever['id'], $achId);
 $userAchs = Database::getAllAchievementsFromUser($achiever['id']);
-assert_test("getAllAchievementsFromUser() returns the user's achievements", count($userAchs) === 1 && $userAchs[0]['name'] === 'MyAch');
+assert_test('addAchievementToUser() links an achievement to a user', count($userAchs) === 1 && $userAchs[0]['name'] === 'MyAch');
+assert_test('getAllAchievementsFromUser() returns the correct achievement', $userAchs[0]['id'] === $achId);
 
 Database::updateAchievement(['UpdatedAch', 'New desc', 0, $achId]);
 $updatedAch = Database::getAchievementById($achId);
 assert_test('updateAchievement() changes name', $updatedAch['name'] === 'UpdatedAch');
 assert_test('updateAchievement() changes description', $updatedAch['description'] === 'New desc');
+assert_test('updateAchievement() changes points', (int)$updatedAch['points'] === 0);
 
 $delAchId = insert_achievement('ToDelete');
 Database::deleteAchievement($delAchId);
 assert_test('deleteAchievement() removes the record', Database::getAchievementById($delAchId) === null);
 
 Database::deleteAchievementFromUser($achiever['id']);
-assert_test("deleteAchievementFromUser() removes user-achievement relations", count(Database::getAllAchievementsFromUser($achiever['id'])) === 0);
+assert_test('deleteAchievementFromUser() removes user-achievement relations', count(Database::getAllAchievementsFromUser($achiever['id'])) === 0);
 
 // ─────────────────────────────────────────────
 // Genre tests
@@ -200,9 +219,16 @@ assert_test("deleteAchievementFromUser() removes user-achievement relations", co
 echo "\n=== Genres ===\n";
 reset_tables();
 
+// Test createGenre() returns a PDOStatement
+$stmt = Database::createGenre(['CreatedGenre']);
+assert_test('createGenre() returns a PDOStatement', $stmt instanceof PDOStatement);
+$createdGenreId = (int) Database::getConnection()->lastInsertId();
+$createdGenre = Database::getGenreById($createdGenreId);
+assert_test('createGenre() inserts the correct name', $createdGenre !== null && $createdGenre['name'] === 'CreatedGenre');
+
 insert_genre('Action');
 insert_genre('RPG');
-assert_test('getAllGenres() returns all records', count(Database::getAllGenres()) === 2);
+assert_test('getAllGenres() returns all records', count(Database::getAllGenres()) === 3); // CreatedGenre + Action + RPG
 
 $genreId = insert_genre('Strategy');
 $genre = Database::getGenreById($genreId);
@@ -212,10 +238,14 @@ assert_test('getGenreById() returns null for missing id', Database::getGenreById
 Database::addUser(['genreuser', 'genre@example.com', 'pass']);
 $genreUser = Database::getUserByUsernameOrEmail('genreuser');
 $genreGameId = insert_game('GenreGame');
-Database::executeQuery("INSERT INTO user_games (user_id, game_id) VALUES (?, ?)", [$genreUser['id'], $genreGameId]);
-Database::executeQuery("INSERT INTO game_genres (game_id, genre_id) VALUES (?, ?)", [$genreGameId, $genreId]);
+
+// Test addGameToUser() and addGenreToGame()
+Database::addGameToUser($genreUser['id'], $genreGameId);
+Database::addGenreToGame($genreGameId, $genreId);
+
 $gameGenres = Database::getAllGenresFromGame($genreUser['id']);
-assert_test("getAllGenresFromGame() returns genres for user's games", count($gameGenres) === 1 && $gameGenres[0]['name'] === 'Strategy');
+assert_test('addGenreToGame() links a genre to a game', count($gameGenres) === 1 && $gameGenres[0]['name'] === 'Strategy');
+assert_test('getAllGenresFromGame() returns genres for the user\'s games', $gameGenres[0]['id'] === $genreId);
 
 $delGenreId = insert_genre('ToDelete');
 Database::deleteGenre($delGenreId);
