@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS genres (
 CREATE TABLE IF NOT EXISTS games (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
-    image LONGBLOB NOT NULL,
+    image TEXT NOT NULL,
     difficulty ENUM('Easy', 'Medium', 'Hard', 'Infernal') NOT NULL,
     release_year INT NOT NULL,
     description TEXT NOT NULL

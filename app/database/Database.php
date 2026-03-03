@@ -162,6 +162,13 @@ class Database {
         return $stmt;
     }
 
+    public static function addGameToUser(int $userId, int $gameId): void
+    {
+        $sql = "INSERT INTO user_games (user_id, game_id) VALUES (?, ?)";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute([$userId, $gameId]);
+    }
+
     public static function deleteGame(int $gameId): void
     {
         $sql = "DELETE FROM games WHERE id = ?";
@@ -225,6 +232,13 @@ class Database {
         $stmt->execute([$achievementId]);
     }
 
+    public static function addAchievementToUser(int $userId, int $achievementId): void
+    {
+        $sql = "INSERT INTO user_achievements (user_id, achievement_id) VALUES (?, ?)";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute([$userId, $achievementId]);
+    }
+
     public static function deleteAchievementFromUser(int $userId): void
     {
         $sql = "DELETE FROM user_achievements WHERE user_id = ?";
@@ -257,6 +271,21 @@ class Database {
         $stmt->execute([$genreId]);
         $genre = $stmt->fetch(PDO::FETCH_ASSOC);
         return $genre ?: null;
+    }
+
+    public static function createGenre(array $params = []): PDOStatement
+    {
+        $sql = "INSERT INTO genres (name) VALUES (?)";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
+
+    public static function addGenreToGame(int $gameId, int $genreId): void
+    {
+        $sql = "INSERT INTO game_genres (game_id, genre_id) VALUES (?, ?)";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute([$gameId, $genreId]);
     }
 
     public static function deleteGenre(int $genreId): void
