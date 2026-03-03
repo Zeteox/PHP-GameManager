@@ -1,13 +1,9 @@
 <?php
-// On démarre la session PHP (obligatoire pour gérer la connexion plus tard)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-// SIMULATION : Change cette variable à 'false' pour voir la vue "Déconnecté" !
+# Variable statique pour simuler (à remplacer)
 $est_connecte = true; 
-// Plus tard, tu remplaceras la ligne du dessus par quelque chose comme :
-// $est_connecte = isset($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,15 +13,8 @@ $est_connecte = true;
     <link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <title><?php echo $pageTitle ?? "L'Auberge"; ?></title>
-    <style>
-        body { font-family: 'MedievalSharp', cursive; background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); }
-        .hs-text-shadow { text-shadow: 2px 2px 4px rgba(0,0,0,0.9); }
-        .nav-link-active {
-            color: #ffd700 !important;
-            border-bottom: 2px solid #ffd700;
-        }
-    </style>
 </head>
 <body class="bg-[#1a120b] text-[#f0d8a8] min-h-screen flex flex-col">
 
@@ -77,22 +66,4 @@ $est_connecte = true;
             </div>
         </div>
     </header>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Identifie la page actuelle
-            const currentUrl = window.location.pathname.split('/').pop() || 'index.php';
-            const links = document.querySelectorAll('.nav-link');
-            
-            links.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                // Si le href du lien correspond à l'URL actuelle
-                if (currentUrl === linkHref) {
-                    link.classList.add('nav-link-active'); // Ajoute la couleur Or et le souligné
-                    link.classList.remove('text-[#f0d8a8]'); // Retire la couleur par défaut
-                }
-            });
-        });
-    </script>
-
     <div class="flex-grow">
