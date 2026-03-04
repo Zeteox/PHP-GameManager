@@ -1,7 +1,20 @@
 <?php
-$pageTitle = "Mon Profil - L'Auberge";
-$is_admin = true;
 include('components/header.php');
+
+$pageTitle = "Mon Profil - L'Auberge";
+
+updateUserFormHandler();
+
+if (!$est_connecte) {
+    header('Location: login.php');
+    exit;
+}
+
+loadEnv();
+
+Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
+$userData = Database::getUserById($_SESSION['user_id'] ?? 0);
+Database::disconnect();
 ?>
 
 <main class="max-w-7xl mx-auto mt-12 px-4 font-sans mb-20">
@@ -20,11 +33,11 @@ include('components/header.php');
                 <div class="absolute inset-0 z-20 flex flex-col items-center justify-end pb-[13%] px-14">
                     <h2
                         class="font-black text-xl text-white hs-text-shadow tracking-widest font-serif leading-none text-center">
-                        Chevalier des Glaces
+                        <?= htmlspecialchars($userData['username'] ?? 'Aventurier Anonyme') ?>
                     </h2>
                     <span
                         class="bg-[#1a120b] text-[#b8860b] text-[10px] font-bold px-3 py-1 rounded border border-[#4a3621] mt-2 shadow-lg uppercase tracking-widest">
-                        Inscrit le 12 Oct. 2023
+                        Inscrit le <?= isset($userData['created_at']) ? date("d M Y", strtotime($userData['created_at'])) : 'Date Inconnue' ?>
                     </span>
                     <p class="text-[#f0d8a8] mt-2 font-serif italic text-xs text-center leading-relaxed max-w-[90%]">
                         "Habitué de l'Auberge, toujours prêt à tirer une chaise près du feu."
@@ -41,7 +54,7 @@ include('components/header.php');
                     </h3>
                     <div class="flex items-center gap-2">
                         <img src="assets/dust.png" class="w-8 h-8 drop-shadow-md">
-                        <span class="text-blue-300 font-black text-2xl">190</span>
+                        <span class="text-blue-300 font-black text-2xl"><?= $poussiere ?></span>
                     </div>
                 </div>
 
@@ -53,7 +66,7 @@ include('components/header.php');
                         <img src="assets/cross.png" class="w-6 h-6 drop-shadow-[0_0_8px_rgba(255,0,0,0.8)]">
                     </div>
 
-                    <div class="overflow-hidden w-full">
+                    <div href="logout.php" class="overflow-hidden w-full">
                         <span
                             class="block font-black uppercase tracking-widest text-md font-serif text-[#ffd700] hs-text-shadow truncate">
                             Déconnexion
@@ -125,19 +138,30 @@ include('components/header.php');
                         Personnel</h2>
                 </div>
 
+                <?php if ($flash): ?>
+                    <div class="mx-6 mt-6 px-4 py-3 rounded-lg border text-sm font-bold tracking-wide text-center
+                        <?= $flash['type'] === 'success'
+                            ? 'bg-[#1a3a1a] border-[#4caf50] text-[#81c784]'
+                            : 'bg-[#3a1a1a] border-[#b71c1c] text-[#ef9a9a]' ?>">
+                        <?= htmlspecialchars($flash['message']) ?>
+                    </div>
+                <?php endif; ?>
+
                 <form action="#" method="POST" class="space-y-6">
+                    <input type="hidden" name="action" value="userUpdate">
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-gray-500 uppercase text-[10px] font-bold mb-1 tracking-wider">Nom
                                 d'Aventurier</label>
-                            <input type="text" value="Chevalier des Glaces"
+                            <input name="username" type="text" value="<?= htmlspecialchars($userData['username'] ?? 'Aventurier Anonyme') ?>"
                                 class="w-full bg-[#2d1e12] border border-[#4a3621] rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#b8860b] transition-colors shadow-inner font-serif">
                         </div>
                         <div>
                             <label
                                 class="block text-gray-500 uppercase text-[10px] font-bold mb-1 tracking-wider">Parchemin
                                 de Correspondance</label>
-                            <input type="email" value="joueur@hearthstone.fr"
+                            <input name="email" type="email" value="<?= htmlspecialchars($userData['email'] ?? '') ?>"
                                 class="w-full bg-[#2d1e12] border border-[#4a3621] rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#b8860b] transition-colors shadow-inner font-serif">
                         </div>
                     </div>
@@ -151,7 +175,7 @@ include('components/header.php');
                             <label
                                 class="block text-gray-500 uppercase text-[10px] font-bold mb-1 tracking-wider">Ancien
                                 Mot de Pouvoir</label>
-                            <input type="password" placeholder="••••••••••••"
+                            <input required name="old_password" type="password" placeholder="••••••••••••"
                                 class="w-full bg-[#2d1e12] border border-[#4a3621] rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#b8860b] transition-colors shadow-inner font-serif">
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -159,14 +183,14 @@ include('components/header.php');
                                 <label
                                     class="block text-[#b8860b] uppercase text-[10px] font-bold mb-1 tracking-wider">Nouveau
                                     Mot de Pouvoir</label>
-                                <input type="password" placeholder="••••••••••••"
+                                <input required name="new_password" type="password" placeholder="••••••••••••"
                                     class="w-full bg-[#1a120b] border border-[#b8860b]/50 rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#ffd700] transition-colors shadow-inner font-serif">
                             </div>
                             <div>
                                 <label
                                     class="block text-[#b8860b] uppercase text-[10px] font-bold mb-1 tracking-wider">Confirmer
                                     le Sceau</label>
-                                <input type="password" placeholder="••••••••••••"
+                                <input required name="confirm_password" type="password" placeholder="••••••••••••"
                                     class="w-full bg-[#1a120b] border border-[#b8860b]/50 rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#ffd700] transition-colors shadow-inner font-serif">
                             </div>
                         </div>

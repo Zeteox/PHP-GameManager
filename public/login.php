@@ -1,6 +1,6 @@
 <?php
+include('components/header.php');
 $pageTitle = "Entrer dans l'Auberge";
-require_once('../app/login/FormUtils.php');
 
 LoginRegisterFormHandler();
 
@@ -8,9 +8,6 @@ $flash   = $_SESSION['flash'] ?? null;
 $openTab = $flash['tab'] ?? 'login';
 unset($_SESSION['flash']);
 
-$pageTitle = "Entrer dans l'Auberge";
-
-include('components/header.php');
 ?>
 
 <main class="max-w-4xl mx-auto mt-16 px-4 mb-20 font-sans flex justify-center">
@@ -46,7 +43,7 @@ include('components/header.php');
 
         <div class="p-8">
             
-            <form id="form-login" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" class="space-y-6 block">
+            <form id="form-login" action="#" method="POST" class="space-y-6 block">
                 <input type="hidden" name="action" value="login">
 
                 <div class="bg-[#1a120b] p-5 rounded-lg border border-[#4a3621] shadow-inner relative">
@@ -67,7 +64,7 @@ include('components/header.php');
                 </button>
             </form>
 
-            <form id="form-register" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" class="space-y-5 hidden">
+            <form id="form-register" action="#" method="POST" class="space-y-5 hidden">
                 <input type="hidden" name="action" value="register">
 
                 <div class="bg-[#1a120b] p-5 rounded-lg border border-[#4a3621] shadow-inner relative">

@@ -1,8 +1,25 @@
 <?php
+require __DIR__ . '/../../app/utils/EnvUtils.php';
+require __DIR__ . '/../../app/database/Database.php';
+require __DIR__ . '/../../app/utils/UserUtils.php';
+require __DIR__ . '/../../app/utils/FormUtils.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $est_connecte = isset($_SESSION['user_id']); 
+
+loadEnv();
+
+$is_admin = isUserAdmin($_SESSION['user_id'] ?? 0);
+
+Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
+$achievements = Database::getAllAchievementsFromUser($_SESSION['user_id'] ?? 0);
+$poussiere = 0;
+foreach ($achievements as $achievement) {
+    $poussiere += $achievement['points'];
+}
+Database::disconnect();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -54,7 +71,7 @@ $est_connecte = isset($_SESSION['user_id']);
             <div class="hidden md:flex items-center gap-4">
                 <?php if ($est_connecte): ?>
                     <div class="flex items-center gap-1 text-blue-300 font-bold">
-                        <span>400</span>
+                        <span><?= $poussiere ?></span>
                         <img src="assets/dust.png" alt="Poussière" class="w-6 h-6">
                     </div>
                 <?php else: ?>
