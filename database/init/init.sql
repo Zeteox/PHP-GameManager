@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS achievements (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
-    points INT NOT NULL
+    points INT NOT NULL,
+    id_picture INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS game_genres (
@@ -66,12 +67,12 @@ INSERT INTO genres (name) VALUES
 INSERT INTO users (username, email, password, role) VALUES
 ('defaultadmin', 'admin@example.com', '$2y$12$.1bWmrDxoy4LHqoFf4HVhekhldvwq9nWLKqS97ocPWG3PKQG8Jgp2', 'admin');
 
-INSERT INTO achievements (name, description, points) VALUES
-('First of Many', 'Add a game to your collection.', 10),
-('Collector', 'Add 10 games to your collection.', 25),
-('Enthusiast', 'Add 50 games to your collection.', 50),
-('Completionist', 'Add 100 games to your collection.', 100),
-('Genre Explorer', 'Add a game from each genre to your collection.', 25),
-('Achievement Hunter', 'Earn 10 achievements.', 50),
-('Master Collector', 'Earn all achievements.', 100);
+INSERT INTO achievements (name, description, points, id_picture) VALUES
+('First of Many', 'Add a game to your collection.', 10, 1),
+('Collector', 'Add 10 games to your collection.', 25, 2),
+('Enthusiast', 'Add 50 games to your collection.', 50, 3),
+('Completionist', 'Add 100 games to your collection.', 100, 4),
+('Genre Explorer', 'Add a game from each genre to your collection.', 25, 5),
+('Achievement Hunter', 'Earn 10 achievements.', 50, 6),
+('Master Collector', 'Earn all achievements.', 100, 7);
 
