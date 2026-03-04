@@ -134,7 +134,7 @@
 
                 <a href="achievements.php" class="bg-gradient-to-br from-[#2d1e12] to-[#1a120b] hover:from-[#3d2b1f] hover:to-[#1a120b] border-2 border-[#b8860b] hover:border-[#ffd700] text-[#ffd700] p-5 rounded-xl transform transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex items-center gap-4 group">
                     <div class="bg-[#1a120b] p-3 rounded-full border border-[#b8860b] group-hover:border-[#ffd700] shadow-inner group-hover:scale-110 transition-all">
-                        <img src="assets/achievement/cardPack34.png" class="w-14 h-14 drop-shadow-md">
+                        <img src="assets/achievement/cardPack8.png" class="w-14 h-14 drop-shadow-md">
                     </div>
                     <div>
                         <span class="block font-black uppercase tracking-widest text-lg font-serif">Livre de Quêtes</span>

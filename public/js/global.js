@@ -39,26 +39,65 @@ function switchTab(tab) {
   }
 }
 
+function openModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.remove("hidden");
+  setTimeout(() => {
+    modal.classList.remove("opacity-0");
+    modal.querySelector("div").classList.remove("scale-95");
+  }, 10);
+}
 
-function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        const modalBox = modal.querySelector('div');
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.add("opacity-0");
+  modal.querySelector("div").classList.add("scale-95");
+  setTimeout(() => {
+    modal.classList.add("hidden");
+  }, 300);
+}
 
-        modal.classList.remove('hidden');
-        setTimeout(() => {
-            modal.classList.remove('opacity-0');
-            modalBox.classList.remove('scale-95');
-        }, 10);
+function openEditUser(id, currentRole) {
+  document.getElementById("edit_user_id").value = id;
+  document.getElementById("edit_user_role").value = currentRole;
+  openModal("modal-edit-user");
+}
+
+function openDeleteUser(id) {
+  document.getElementById("delete_user_id").value = id;
+  openModal("modal-delete-user");
+}
+
+function openEditGame(gameData) {
+  if (gameData) {
+    document.getElementById("game_modal_title").innerText =
+      "Reforger le Grimoire";
+    document.getElementById("form_game_id").value = gameData.id;
+    document.getElementById("form_game_title").value = gameData.title;
+    document.getElementById("form_game_year").value = gameData.release_year;
+    document.getElementById("form_game_image").value = gameData.image;
+    document.getElementById("form_game_diff").value = gameData.difficulty;
+    document.getElementById("form_game_desc").value = gameData.description;
+
+    // On pré-sélectionne le genre (si le jeu en possède un, on a récupéré le premier id)
+    if (gameData.genre_id) {
+      document.getElementById("form_game_genre").value = gameData.genre_id;
     }
+  } else {
+    document.getElementById("game_modal_title").innerText =
+      "Forger un Nouveau Grimoire";
+    document.getElementById("form_game_id").value = "";
+    document.getElementById("form_game_title").value = "";
+    document.getElementById("form_game_year").value = new Date().getFullYear();
+    document.getElementById("form_game_image").value = "";
+    document.getElementById("form_game_diff").value = "Medium";
+    document.getElementById("form_game_desc").value = "";
+    document.getElementById("form_game_genre").selectedIndex = 0; // Remet au premier genre par défaut
+  }
+  openModal("modal-edit-game");
+}
 
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        const modalBox = modal.querySelector('div');
-
-        modal.classList.add('opacity-0');
-        modalBox.classList.add('scale-95');
-
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 300);
-    }
+function openDeleteGame(id) {
+  document.getElementById("delete_game_id").value = id;
+  openModal("modal-delete-game");
+}

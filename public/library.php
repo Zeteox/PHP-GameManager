@@ -23,6 +23,7 @@ $jeux_collection = Database::getAllGamesFromUser($_SESSION['user_id'] ?? 0);
                 <a href="boutique.php" class="mt-4 inline-block bg-gradient-to-br from-[#4a3621] to-[#2d1e12] hover:from-[#5c4321] hover:to-[#3d2b1f] border-2 border-[#b8860b] hover:border-[#ffd700] text-[#ffd700] px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                     Explorer le Marché
                 </a>
+                
             </div>
         <?php endif; ?>
         <?php foreach($jeux_collection as $jeu): ?>

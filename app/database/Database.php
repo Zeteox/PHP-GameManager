@@ -93,6 +93,14 @@ class Database {
         $stmt->execute($params);
         return $stmt;
     }
+    
+    public static function updateUserRole(array $params = []): PDOStatement
+    {
+        $sql = "UPDATE users SET role = ? WHERE id = ?";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt;
+    }
 
     public static function deleteUser(array $params = []): PDOStatement
     {
@@ -100,6 +108,13 @@ class Database {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt;
+    }
+
+    public static function getAllUsers(): array
+    {
+        $sql = "SELECT * FROM users";
+        $stmt = self::getConnection()->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function getUserByUsernameOrEmail(string $usernameOrEmail): ?array
@@ -122,7 +137,7 @@ class Database {
 
     public static function createGame(array $params = []): PDOStatement
     {
-        $sql = "INSERT INTO games (title, image, difficulty, release_year, description) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO games (title, id_genre, image, difficulty, release_year, description) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt;
@@ -165,7 +180,7 @@ class Database {
      */
     public static function updateGame(array $params = []): PDOStatement
     {
-        $sql = "UPDATE games SET title = ?, image = ?, difficulty = ?, release_year = ?, description = ? WHERE id = ?";
+        $sql = "UPDATE games SET title = ?, id_genre = ?, image = ?, difficulty = ?, release_year = ?, description = ? WHERE id = ?";
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt;
