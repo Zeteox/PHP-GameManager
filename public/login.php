@@ -29,7 +29,7 @@ unset($_SESSION['flash']);
         </div>
 
         <?php if ($flash): ?>
-            <div class="mx-6 mt-6 px-4 py-3 rounded-lg border text-sm font-bold tracking-wide text-center
+            <div class="mx-6 mt-6 mb-6 px-4 py-3 rounded-lg border text-sm font-bold tracking-wide text-center
                 <?= $flash['type'] === 'success'
                     ? 'bg-[#1a3a1a] border-[#4caf50] text-[#81c784]'
                     : 'bg-[#3a1a1a] border-[#b71c1c] text-[#ef9a9a]' ?>">
