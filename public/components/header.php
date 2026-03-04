@@ -4,6 +4,7 @@ require __DIR__ . '/../../app/database/Database.php';
 require __DIR__ . '/../../app/utils/UserUtils.php';
 require __DIR__ . '/../../app/utils/FormUtils.php';
 require __DIR__ . '/../../app/admin/AdminUtils.php';
+require __DIR__ . '/../../app/home/HomUtils.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
