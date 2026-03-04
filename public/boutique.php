@@ -44,7 +44,7 @@ $user_games = Database::getAllGamesFromUser($_SESSION['user_id'] ?? 0);
 
                     <?php if (in_array($jeu['id'], array_column($user_games, 'id'))): ?>
                         <div class="mt-auto w-full bg-gray-600 cursor-not-allowed border-2 border-gray-500 text-white font-bold uppercase tracking-widest px-4 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.4)] flex justify-center items-center gap-3">
-                            Déjà dans votre bibliothèque
+                            Travail déja terminé
                         </div>
                     <?php else: ?>
                         <div class="mt-auto">
