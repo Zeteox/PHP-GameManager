@@ -15,25 +15,20 @@ CREATE TABLE IF NOT EXISTS genres (
 CREATE TABLE IF NOT EXISTS games (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
+    id_genre INT NOT NULL,
     image TEXT NOT NULL,
     difficulty ENUM('Easy', 'Medium', 'Hard', 'Infernal') NOT NULL,
     release_year INT NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    FOREIGN KEY (id_genre) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS achievements (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
-    points INT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS game_genres (
-    game_id INT NOT NULL,
-    genre_id INT NOT NULL,
-    PRIMARY KEY (game_id, genre_id),
-    FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+    points INT NOT NULL,
+    id_picture INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS user_achievements (
@@ -66,12 +61,18 @@ INSERT INTO genres (name) VALUES
 INSERT INTO users (username, email, password, role) VALUES
 ('defaultadmin', 'admin@example.com', '$2y$12$.1bWmrDxoy4LHqoFf4HVhekhldvwq9nWLKqS97ocPWG3PKQG8Jgp2', 'admin');
 
-INSERT INTO achievements (name, description, points) VALUES
-('First of Many', 'Add a game to your collection.', 10),
-('Collector', 'Add 10 games to your collection.', 25),
-('Enthusiast', 'Add 50 games to your collection.', 50),
-('Completionist', 'Add 100 games to your collection.', 100),
-('Genre Explorer', 'Add a game from each genre to your collection.', 25),
-('Achievement Hunter', 'Earn 10 achievements.', 50),
-('Master Collector', 'Earn all achievements.', 100);
+INSERT INTO achievements (name, description, points, id_picture) VALUES
+('First of Many', 'Add a game to your collection.', 10, 1),
+('Collector', 'Add 10 games to your collection.', 25, 2),
+('Enthusiast', 'Add 50 games to your collection.', 50, 3),
+('Completionist', 'Add 100 games to your collection.', 100, 4),
+('Genre Explorer', 'Add a game from each genre to your collection.', 25, 5),
+('Achievement Hunter', 'Earn 10 achievements.', 50, 6),
+('Master Collector', 'Earn all achievements.', 100, 7);
 
+INSERT INTO games (title, id_genre, image, difficulty, release_year, description) VALUES
+('Cyberpunk 2077', 1, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg', 'Medium', 2020, 'Dive into a dystopian future filled with technology and danger.'),
+('Hollow Knight', 2, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/367520/header.jpg', 'Hard', 2017, 'Explore a beautifully hand-drawn world filled with secrets and challenging enemies.'),
+('Stardew Valley', 5, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg', 'Easy', 2016, 'Build your farm and live off the land in this charming simulation game.'),
+('Elden Ring', 3, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg', 'Infernal', 2022, 'Embark on a dark fantasy adventure in a vast open world filled with danger and mystery.'),
+('The Witcher 3: Wild Hunt', 3, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg', 'Hard', 2015, 'Embark on a monster-hunting adventure in a richly detailed open world.');
