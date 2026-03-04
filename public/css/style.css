@@ -1,0 +1,11 @@
+body {
+  font-family: "MedievalSharp", cursive;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-leather.png");
+}
+.hs-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+.nav-link-active {
+  color: #ffd700 !important;
+  border-bottom: 2px solid #ffd700;
+}
