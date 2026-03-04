@@ -2,8 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-# Variable statique pour simuler (à remplacer)
-$est_connecte = true; 
+$est_connecte = isset($_SESSION['user_id']); 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
