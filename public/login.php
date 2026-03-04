@@ -25,7 +25,7 @@ unset($_SESSION['flash']);
         <div class="bg-gradient-to-b from-[#1a120b] to-[#2d1e12] p-8 text-center border-b-2 border-[#b8860b]/50 relative">
             <img src="assets/eventDoor.png" alt="Porte de l'Auberge" class="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-[#ffd700] shadow-[0_0_15px_rgba(255,215,0,0.4)]">
             <h1 class="text-3xl font-black text-[#ffd700] hs-text-shadow tracking-widest font-serif uppercase">L'Auberge</h1>
-            <p class="text-[#f0d8a8] italic text-sm mt-2">"Tirez une chaise près du feu et réchauffez-vous."</p>
+            <p class="text-[#f0d8a8] italic text-sm mt-2">"Entrez il y a de la place autour du foyer !"</p>
         </div>
 
         <?php if ($flash): ?>
