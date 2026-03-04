@@ -111,6 +111,15 @@ class Database {
         return $user ?: null;
     }
 
+    public static function getUserById(int $userId): ?array
+    {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+
     public static function createGame(array $params = []): PDOStatement
     {
         $sql = "INSERT INTO games (title, image, difficulty, release_year, description) VALUES (?, ?, ?, ?, ?)";
