@@ -38,3 +38,27 @@ function switchTab(tab) {
       "flex-1 py-4 font-black uppercase tracking-widest text-[#b8860b] hover:text-[#f0d8a8] bg-[#1a120b] border-t-2 border-transparent transition-colors font-serif cursor-pointer";
   }
 }
+
+
+function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalBox = modal.querySelector('div');
+
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modalBox.classList.remove('scale-95');
+        }, 10);
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalBox = modal.querySelector('div');
+
+        modal.classList.add('opacity-0');
+        modalBox.classList.add('scale-95');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }

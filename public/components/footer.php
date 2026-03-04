@@ -45,11 +45,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="library.php"
+                        <a href="login.php"
                             class="hover:text-[#ffd700] transition-colors flex items-center gap-3 group">
                             <span
                                 class="text-[#b8860b] group-hover:text-[#ffd700] group-hover:scale-125 transition-transform">♦</span>
-                            Mon Grimoire
+                            Rejoindre l'Auberge
                         </a>
                     </li>
                 </ul>
