@@ -55,6 +55,13 @@ $jeux_collection = Database::getAllGamesFromUser($_SESSION['user_id'] ?? 0);
                             Forgé dans le grimoire le : <?= isset($jeu['added_at']) ? date("d M Y", strtotime($jeu['added_at'])) : 'Date Inconnue' ?>
                         </span>
                     </div>
+
+                    <div class="text-center mt-auto">
+                        <a href="salvageGame.php?game_id=<?php echo $jeu['id']; ?>" class="mt-2 w-full bg-[#6b1111] hover:bg-[#8b1515] border-2 border-[#ffd700] text-white font-black uppercase tracking-widest px-4 py-3 rounded shadow-[0_0_15px_rgba(184,134,11,0.4)] transition transform active:scale-95 flex justify-center items-center gap-3">
+                            <img src="assets/cross.png" class="w-6 h-6 drop-shadow-[0_0_8px_rgba(255,0,0,0.8)]">
+                            Retirer du grimoire
+                        </a>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>

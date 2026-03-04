@@ -185,11 +185,11 @@ class Database {
         $stmt->execute([$gameId]);
     }
 
-    public static function deleteGameFromUser(int $userId): void
+    public static function deleteGameFromUser(int $userId, int $gameId): void
     {
-        $sql = "DELETE FROM user_games WHERE user_id = ?";
+        $sql = "DELETE FROM user_games WHERE user_id = ? AND game_id = ?";
         $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$userId]);
+        $stmt->execute([$userId, $gameId]);
     }
 
     public static function createAchievement(array $params = []): PDOStatement
