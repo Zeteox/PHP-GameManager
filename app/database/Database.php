@@ -1,5 +1,6 @@
 <?php
-class Database {
+class Database
+{
     private static ?PDO $connection = null;
 
     public static function connect(string $dsn, string $username, string $password): void
@@ -93,7 +94,7 @@ class Database {
         $stmt->execute($params);
         return $stmt;
     }
-    
+
     public static function updateUserRole(array $params = []): PDOStatement
     {
         $sql = "UPDATE users SET role = ? WHERE id = ?";

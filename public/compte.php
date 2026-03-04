@@ -21,7 +21,7 @@ if ($userData === null) {
 }
 Database::disconnect();
 
-$flash   = $_SESSION['flash'] ?? null;
+$flash = $_SESSION['flash'] ?? null;
 $openTab = $flash['tab'] ?? 'login';
 unset($_SESSION['flash']);
 ?>
@@ -46,7 +46,8 @@ unset($_SESSION['flash']);
                     </h2>
                     <span
                         class="bg-[#1a120b] text-[#b8860b] text-[10px] font-bold px-3 py-1 rounded border border-[#4a3621] mt-2 shadow-lg uppercase tracking-widest">
-                        Inscrit le <?= isset($userData['created_at']) ? date("d M Y", strtotime($userData['created_at'])) : 'Date Inconnue' ?>
+                        Inscrit le
+                        <?= isset($userData['created_at']) ? date("d M Y", strtotime($userData['created_at'])) : 'Date Inconnue' ?>
                     </span>
                     <p class="text-[#f0d8a8] mt-2 font-serif italic text-xs text-center leading-relaxed max-w-[90%]">
                         "Habitué de l'Auberge, toujours prêt à tirer une chaise près du feu."
@@ -163,7 +164,8 @@ unset($_SESSION['flash']);
                         <div>
                             <label class="block text-gray-500 uppercase text-[10px] font-bold mb-1 tracking-wider">Nom
                                 d'Aventurier</label>
-                            <input name="username" type="text" value="<?= htmlspecialchars($userData['username'] ?? 'Aventurier Anonyme') ?>"
+                            <input name="username" type="text"
+                                value="<?= htmlspecialchars($userData['username'] ?? 'Aventurier Anonyme') ?>"
                                 class="w-full bg-[#2d1e12] border border-[#4a3621] rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#b8860b] transition-colors shadow-inner font-serif">
                         </div>
                         <div>

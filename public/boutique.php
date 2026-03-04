@@ -31,25 +31,31 @@ $user_games = Database::getAllGamesFromUser($_SESSION['user_id'] ?? 0);
                     <h3 class="text-2xl font-bold text-white mb-2 tracking-wider"><?php echo $jeu['title']; ?></h3>
 
                     <div class="flex flex-wrap justify-center items-center gap-2 mb-4">
-                        <span class="text-xs text-[#b8860b] italic uppercase"><?php echo Database::getGenreById($jeu['id_genre'])['name']; ?> (<?php echo $jeu['release_year'] ?? '2026'; ?>)</span>
+                        <span
+                            class="text-xs text-[#b8860b] italic uppercase"><?php echo Database::getGenreById($jeu['id_genre'])['name']; ?>
+                            (<?php echo $jeu['release_year'] ?? '2026'; ?>)</span>
                         <span class="text-gray-600">•</span>
-                        <span class="text-[10px] font-bold px-2 py-1 bg-black/50 rounded uppercase border <?php echo $diff_colors[$jeu['difficulty']] ?? 'text-gray-400 border-gray-700/50'; ?>">
+                        <span
+                            class="text-[10px] font-bold px-2 py-1 bg-black/50 rounded uppercase border <?php echo $diff_colors[$jeu['difficulty']] ?? 'text-gray-400 border-gray-700/50'; ?>">
                             <?php echo $jeu['difficulty']; ?>
                         </span>
                     </div>
 
-                    <div class="bg-black/30 p-3 rounded border border-[#b8860b]/20 mb-6 flex-grow flex items-center justify-center shadow-inner">
+                    <div
+                        class="bg-black/30 p-3 rounded border border-[#b8860b]/20 mb-6 flex-grow flex items-center justify-center shadow-inner">
                         <p class="text-sm text-[#e6ccac] italic">"<?php echo $jeu['description']; ?>"</p>
                     </div>
 
                     <?php if (in_array($jeu['id'], array_column($user_games, 'id'))): ?>
-                        <div class="mt-auto w-full bg-gray-600 cursor-not-allowed border-2 border-gray-500 text-white font-bold uppercase tracking-widest px-4 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.4)] flex justify-center items-center gap-3">
+                        <div
+                            class="mt-auto w-full bg-gray-600 cursor-not-allowed border-2 border-gray-500 text-white font-bold uppercase tracking-widest px-4 py-3 rounded shadow-[0_0_15px_rgba(0,0,0,0.4)] flex justify-center items-center gap-3">
                             Travail déja terminé
                         </div>
                     <?php else: ?>
                         <div class="mt-auto">
                             <a href="forgeGame.php?game_id=<?php echo $jeu['id']; ?>">
-                                <button class="w-full bg-[#6b1111] hover:bg-[#8b1515] border-2 border-[#ffd700] text-white font-black uppercase tracking-widest px-4 py-3 rounded shadow-[0_0_15px_rgba(184,134,11,0.4)] transition transform active:scale-95 flex justify-center items-center gap-3">
+                                <button
+                                    class="w-full bg-[#6b1111] hover:bg-[#8b1515] border-2 border-[#ffd700] text-white font-black uppercase tracking-widest px-4 py-3 rounded shadow-[0_0_15px_rgba(184,134,11,0.4)] transition transform active:scale-95 flex justify-center items-center gap-3">
                                     <img src="assets/hammer.png" alt="Forger" class="w-8 h-8 drop-shadow-md">
                                     Forger ce jeu
                                 </button>

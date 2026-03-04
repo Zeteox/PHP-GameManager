@@ -127,10 +127,12 @@ $genres = Database::getAllGenres();
                                 <div class="font-bold text-white text-base"><?php echo htmlspecialchars($jeu['title']); ?>
                                 </div>
                                 <div class="text-[10px] text-gray-500 tracking-wider">Sortie :
-                                    <?php echo $jeu['release_year']; ?></div>
+                                    <?php echo $jeu['release_year']; ?>
+                                </div>
                             </td>
                             <td class="p-4 text-xs uppercase text-[#b8860b]">
-                                <?php echo Database::getGenreById($jeu['id_genre'])['name']; ?></td>
+                                <?php echo Database::getGenreById($jeu['id_genre'])['name']; ?>
+                            </td>
                             <td class="p-4 text-center">
                                 <span
                                     class="text-[10px] font-bold px-2 py-1 bg-black/50 rounded uppercase border <?php echo $diff_colors[$jeu['difficulty']]; ?>">

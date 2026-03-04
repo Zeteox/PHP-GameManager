@@ -1,5 +1,6 @@
 <?php
-function LoginRegisterFormHandler() {
+function LoginRegisterFormHandler()
+{
     loadEnv();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -9,7 +10,7 @@ function LoginRegisterFormHandler() {
         // ── Login ──
         if ($action === 'login') {
             $identifier = trim($_POST['identifier'] ?? '');
-            $password   = $_POST['password'] ?? '';
+            $password = $_POST['password'] ?? '';
 
             if (empty($identifier) || empty($password)) {
                 $_SESSION['flash'] = ['type' => 'error', 'tab' => 'login', 'message' => "Veuillez remplir tous les champs."];
@@ -26,16 +27,16 @@ function LoginRegisterFormHandler() {
             }
 
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['flash']   = ['type' => 'success', 'tab' => 'login', 'message' => "Bienvenue, {$user['username']} !"];
+            $_SESSION['flash'] = ['type' => 'success', 'tab' => 'login', 'message' => "Bienvenue, {$user['username']} !"];
             header('Location: compte.php');
             exit;
         }
 
         // ── Register ──
         if ($action === 'register') {
-            $username  = trim($_POST['username'] ?? '');
-            $email     = trim($_POST['email'] ?? '');
-            $password  = $_POST['password'] ?? '';
+            $username = trim($_POST['username'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
 
             if (empty($username) || empty($email) || empty($password)) {
                 $_SESSION['flash'] = ['type' => 'error', 'tab' => 'register', 'message' => "Veuillez remplir tous les champs."];
@@ -72,7 +73,7 @@ function LoginRegisterFormHandler() {
             $user = Database::getUserByUsernameOrEmail($username);
 
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['flash']   = ['type' => 'success', 'tab' => 'register', 'message' => "Bienvenue dans l'Auberge, {$username} !"];
+            $_SESSION['flash'] = ['type' => 'success', 'tab' => 'register', 'message' => "Bienvenue dans l'Auberge, {$username} !"];
             header('Location: compte.php');
             exit;
         }
@@ -80,7 +81,8 @@ function LoginRegisterFormHandler() {
     Database::disconnect();
 }
 
-function updateUserFormHandler() {
+function updateUserFormHandler()
+{
     loadEnv();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -89,7 +91,7 @@ function updateUserFormHandler() {
 
         if ($action === 'userUpdate') {
             $identifier = trim($_POST['username'] ?? '');
-            $email      = trim($_POST['email'] ?? '');
+            $email = trim($_POST['email'] ?? '');
             $oldPassword = $_POST['old_password'] ?? '';
             $newPassword = $_POST['new_password'] ?? '';
             $confirmPassword = $_POST['confirm_password'] ?? '';
@@ -145,7 +147,7 @@ function updateUserFormHandler() {
             }
 
             Database::updateUser([$identifier, $email, $newPassword, $_SESSION['user_id']]);
-            $_SESSION['flash']   = ['type' => 'success', 'tab' => 'updateUser', 'message' => "Information utilisateur mise à jour avec succès!"];
+            $_SESSION['flash'] = ['type' => 'success', 'tab' => 'updateUser', 'message' => "Information utilisateur mise à jour avec succès!"];
             header('Location: compte.php');
             exit;
         }
