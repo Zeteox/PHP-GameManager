@@ -14,6 +14,12 @@ loadEnv();
 
 Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
 $userData = Database::getUserById($_SESSION['user_id'] ?? 0);
+
+if ($userData === null) {
+    Database::disconnect();
+    header('Location: logout.php');
+    exit;
+}
 Database::disconnect();
 ?>
 
