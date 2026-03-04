@@ -20,6 +20,10 @@ if ($userData === null) {
     exit;
 }
 Database::disconnect();
+
+$flash   = $_SESSION['flash'] ?? null;
+$openTab = $flash['tab'] ?? 'login';
+unset($_SESSION['flash']);
 ?>
 
 <main class="max-w-7xl mx-auto mt-12 px-4 font-sans mb-20">

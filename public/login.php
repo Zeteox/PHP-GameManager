@@ -2,6 +2,11 @@
 include('components/header.php');
 $pageTitle = "Entrer dans l'Auberge";
 
+if ($est_connecte) {
+    header('Location: compte.php');
+    exit;
+}
+
 LoginRegisterFormHandler();
 
 $flash   = $_SESSION['flash'] ?? null;

@@ -20,6 +20,13 @@ foreach ($achievements as $achievement) {
     $poussiere += $achievement['points'];
 }
 Database::disconnect();
+
+$diff_colors = [
+    'Easy' => 'text-green-400 border-green-700/50',
+    'Medium' => 'text-yellow-400 border-yellow-700/50',
+    'Hard' => 'text-orange-400 border-orange-700/50',
+    'Infernal' => 'text-red-400 border-red-700/50',
+];
 ?>
 <!DOCTYPE html>
 <html lang="fr">

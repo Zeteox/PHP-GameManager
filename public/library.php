@@ -5,13 +5,6 @@ include('components/header.php');
 loadEnv();
 Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
 $jeux_collection = Database::getAllGamesFromUser($_SESSION['user_id'] ?? 0);
-
-$diff_colors = [
-    'Easy' => 'text-green-400 border-green-700/50',
-    'Medium' => 'text-yellow-400 border-yellow-700/50',
-    'Hard' => 'text-orange-400 border-orange-700/50',
-    'Infernal' => 'text-red-400 border-red-700/50',
-];
 ?>
 
 <main class="p-8 max-w-7xl mx-auto mb-20 font-sans">
