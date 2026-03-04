@@ -28,7 +28,7 @@ function LoginRegisterFormHandler()
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['flash'] = ['type' => 'success', 'tab' => 'login', 'message' => "Bienvenue, {$user['username']} !"];
-            header('Location: compte.php');
+            header('Location: account.php');
             exit;
         }
 
@@ -74,7 +74,7 @@ function LoginRegisterFormHandler()
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['flash'] = ['type' => 'success', 'tab' => 'register', 'message' => "Bienvenue dans l'Auberge, {$username} !"];
-            header('Location: compte.php');
+            header('Location: account.php');
             exit;
         }
     }
@@ -95,8 +95,9 @@ function updateUserFormHandler()
             $oldPassword = $_POST['old_password'] ?? '';
             $newPassword = $_POST['new_password'] ?? '';
             $confirmPassword = $_POST['confirm_password'] ?? '';
+            $changePassword = !empty($newPassword) || !empty($confirmPassword);
 
-            if (empty($identifier) || empty($oldPassword) || empty($newPassword) || empty($confirmPassword)) {
+            if (empty($identifier) || empty($oldPassword) ) {
                 $_SESSION['flash'] = ['type' => 'error', 'tab' => 'login', 'message' => "Veuillez remplir tous les champs."];
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 exit;
@@ -110,24 +111,29 @@ function updateUserFormHandler()
                 exit;
             }
 
-            if ($newPassword !== $confirmPassword) {
-                $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "Les nouveaux mots de passe ne correspondent pas."];
-                header('Location: ' . $_SERVER['PHP_SELF']);
-                exit;
+            // Check if new password fields are filled and valid
+            if (!empty($newPassword) && !empty($confirmPassword)) {
+                if ($newPassword !== $confirmPassword) {
+                    $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "Les nouveaux mots de passe ne correspondent pas."];
+                    header('Location: ' . $_SERVER['PHP_SELF']);
+                    exit;
+                }
+
+                if (strlen($newPassword) < 6) {
+                    $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "Le nouveau mot de passe doit contenir au moins 6 caractères."];
+                    header('Location: ' . $_SERVER['PHP_SELF']);
+                    exit;
+                }
             }
 
-            if (strlen($newPassword) < 6) {
-                $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "Le nouveau mot de passe doit contenir au moins 6 caractères."];
-                header('Location: ' . $_SERVER['PHP_SELF']);
-                exit;
-            }
-
+            // Validate email if it's provided
             if ($email && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "L'adresse email est invalide."];
                 header('Location: ' . $_SERVER['PHP_SELF']);
                 exit;
             }
 
+            // Check for duplicates if email or username is changed
             if ($email && $email !== $user['email'] && Database::getUserByUsernameOrEmail($email)) {
                 $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "L'adresse email est déjà utilisée."];
                 header('Location: ' . $_SERVER['PHP_SELF']);
@@ -140,15 +146,13 @@ function updateUserFormHandler()
                 exit;
             }
 
-            if ($newPassword !== $confirmPassword) {
-                $_SESSION['flash'] = ['type' => 'error', 'tab' => 'updateUser', 'message' => "Les nouveaux mots de passe ne correspondent pas."];
-                header('Location: ' . $_SERVER['PHP_SELF']);
-                exit;
+            if ($changePassword) {
+                Database::updateUser([$identifier, $email, $newPassword, $_SESSION['user_id']]);
+            } else {
+                Database::updateUserWithoutPassword([$identifier, $email, $_SESSION['user_id']]);
             }
-
-            Database::updateUser([$identifier, $email, $newPassword, $_SESSION['user_id']]);
             $_SESSION['flash'] = ['type' => 'success', 'tab' => 'updateUser', 'message' => "Information utilisateur mise à jour avec succès!"];
-            header('Location: compte.php');
+            header('Location: account.php');
             exit;
         }
         Database::disconnect();

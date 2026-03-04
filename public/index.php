@@ -1,9 +1,9 @@
 <?php
-$pageTitle = "Auberge de HearthStone - Accueil";
+$pageTitle = "Taverne de HearthStone - Accueil";
 include('components/header.php');
 
 $homeData = getHomeData();
-$selection_jeux = $homeData['featuredGames'];
+$game_selection = $homeData['featuredGames'];
 
 loadEnv();
 Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
@@ -12,7 +12,7 @@ Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NA
 <main class="max-w-7xl mx-auto mt-12 px-4 mb-20 font-sans">
 
     <div class="text-center mb-12">
-        <h1 class="text-5xl font-black text-[#ffd700] hs-text-shadow italic font-serif uppercase">Bienvenue à l'Auberge
+        <h1 class="text-5xl font-black text-[#ffd700] hs-text-shadow italic font-serif uppercase">Bienvenue à la Taverne
         </h1>
         <p class="text-[#b8860b] text-lg mt-2 font-serif italic">"Il y a toujours une place près du foyer pour un
             voyageur fatigué."</p>
@@ -22,7 +22,7 @@ Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NA
     <div class="flex flex-col lg:flex-row gap-10 items-center justify-center">
 
         <div
-            class="w-full <?php echo (isset($est_connecte) && $est_connecte) ? 'lg:w-2/3' : 'lg:w-full'; ?> bg-[#2d1e12] rounded-2xl border-4 border-[#4a3621] shadow-[0_15px_40px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col transition-all duration-500">
+            class="w-full <?php echo (isset($is_connected) && $is_connected) ? 'lg:w-2/3' : 'lg:w-full'; ?> bg-[#2d1e12] rounded-2xl border-4 border-[#4a3621] shadow-[0_15px_40px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col transition-all duration-500">
 
             <div
                 class="bg-gradient-to-b from-[#1a120b] to-[#2d1e12] py-4 border-b-2 border-[#b8860b]/30 flex justify-center items-center gap-4">
@@ -42,38 +42,38 @@ Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NA
                 <div class="relative z-10 w-full text-[#3d2b1f] font-serif">
 
                     <div
-                        class="grid grid-cols-1 sm:grid-cols-2 <?php echo (isset($est_connecte) && $est_connecte) ? '' : 'lg:grid-cols-4'; ?> gap-6">
-                        <?php foreach ($selection_jeux as $jeu):
+                        class="grid grid-cols-1 sm:grid-cols-2 <?php echo (isset($is_connected) && $is_connected) ? '' : 'lg:grid-cols-4'; ?> gap-6">
+                        <?php foreach ($game_selection as $game):
                             ?>
-                            <a href="boutique.php"
+                            <a href="shop.php"
                                 class="bg-[#1a120b] rounded-xl border-2 border-[#b8860b] overflow-hidden shadow-lg group hover:-translate-y-1 hover:border-[#ffd700] hover:shadow-[0_10px_20px_rgba(0,0,0,0.6)] transition-all flex flex-col">
 
                                 <div class="h-32 overflow-hidden relative border-b-2 border-[#b8860b]">
-                                    <img src="<?php echo htmlspecialchars($jeu['image']); ?>"
-                                        alt="<?php echo htmlspecialchars($jeu['title']); ?>"
+                                    <img src="<?php echo htmlspecialchars($game['image']); ?>"
+                                        alt="<?php echo htmlspecialchars($game['title']); ?>"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 sepia-[0.1]">
                                 </div>
 
                                 <div class="p-4 flex-grow flex flex-col">
                                     <h3
                                         class="font-bold text-white uppercase tracking-wider font-serif text-lg leading-tight truncate">
-                                        <?php echo htmlspecialchars($jeu['title']); ?>
+                                        <?php echo htmlspecialchars($game['title']); ?>
                                     </h3>
 
                                     <div class="flex justify-between items-center border-b border-[#4a3621] pb-2 mb-2 mt-1">
                                         <span
                                             class="text-[10px] text-[#b8860b] uppercase tracking-widest group-hover:text-[#f0d8a8] transition-colors truncate pr-2">
-                                            <?php echo Database::getGenreById($jeu['id_genre'])['name'] ?? 'Légende de la Taverne'; ?>
+                                            <?php echo Database::getGenreById($game['id_genre'])['name'] ?? 'Légende de la Taverne'; ?>
                                         </span>
 
                                         <span
-                                            class="text-[9px] font-bold px-2 py-0.5 bg-black/50 rounded border <?php echo $diff_colors[$jeu['difficulty']]; ?> uppercase whitespace-nowrap shadow-sm">
-                                            <?php echo htmlspecialchars($jeu['difficulty']); ?>
+                                            class="text-[9px] font-bold px-2 py-0.5 bg-black/50 rounded border <?php echo $diff_colors[$game['difficulty']]; ?> uppercase whitespace-nowrap shadow-sm">
+                                            <?php echo htmlspecialchars($game['difficulty']); ?>
                                         </span>
                                     </div>
 
                                     <p class="text-xs text-gray-400 italic line-clamp-3 leading-relaxed">
-                                        "<?php echo htmlspecialchars($jeu['description']); ?>"
+                                        "<?php echo htmlspecialchars($game['description']); ?>"
                                     </p>
                                 </div>
                             </a>
@@ -86,12 +86,12 @@ Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NA
             <div class="bg-[#1a120b] h-6 w-full border-t-2 border-[#b8860b]/30"></div>
         </div>
 
-        <?php if (isset($est_connecte) && $est_connecte): ?>
+        <?php if (isset($is_connected) && $is_connected): ?>
             <div class="w-full lg:w-1/3 flex flex-col gap-6">
 
                 <div class="flex flex-col gap-5">
 
-                    <a href="compte.php"
+                    <a href="account.php"
                         class="bg-gradient-to-br from-[#2d1e12] to-[#1a120b] hover:from-[#3d2b1f] hover:to-[#1a120b] border-2 border-[#b8860b] hover:border-[#ffd700] text-[#ffd700] p-5 rounded-xl transform transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex items-center gap-4 group relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#6b1111]/10 to-transparent pointer-events-none">
                         </div>
@@ -110,7 +110,7 @@ Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NA
                         </div>
                     </a>
 
-                    <a href="boutique.php"
+                    <a href="shop.php"
                         class="bg-gradient-to-br from-[#6b1111] to-[#3d0909] hover:from-[#8b1515] hover:to-[#4a0b0b] border-2 border-[#ffd700] text-white p-5 rounded-xl transform transition-all duration-300 hover:-translate-y-1 shadow-[0_10px_20px_rgba(107,17,17,0.5)] flex items-center gap-4 group">
                         <div
                             class="bg-[#1a120b] p-3 rounded-full border border-[#ffd700] shadow-inner group-hover:scale-110 transition-transform">

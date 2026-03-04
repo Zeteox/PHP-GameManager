@@ -69,14 +69,14 @@ function AdminFormHandler()
 function getAdminData()
 {
     Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
-    $utilisateurs = Database::getAllUsers();
-    $jeux = Database::getAllGames();
+    $users = Database::getAllUsers();
+    $games = Database::getAllGames();
 
     Database::disconnect();
 
     return [
-        'utilisateurs' => $utilisateurs,
-        'jeux' => $jeux
+        'users' => $users,
+        'games' => $games
     ];
 }
 ?>

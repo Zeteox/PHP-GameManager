@@ -15,11 +15,11 @@
                     <img src="assets/icon/icon.jpg" alt="Logo"
                         class="w-12 h-12 object-cover rounded-full border-2 border-[#b8860b] group-hover:border-[#ffd700] group-hover:shadow-[0_0_15px_rgba(255,215,0,0.6)] transition-all duration-300">
                     <h3 class="text-[#ffd700] text-3xl uppercase tracking-widest font-black font-serif hs-text-shadow">
-                        L'Auberge</h3>
+                        La Taverne</h3>
                 </div>
                 <p class="text-[#e6ccac] text-sm leading-relaxed italic opacity-80 font-serif max-w-[280px]">
                     "Prenez une chaise près du feu, voyageur. Il y a toujours de la place pour un autre joueur dans
-                    notre auberge."
+                    notre taverne."
                 </p>
             </div>
 
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="boutique.php"
+                        <a href="shop.php"
                             class="hover:text-[#ffd700] transition-colors flex items-center gap-3 group">
                             <span
                                 class="text-[#b8860b] group-hover:text-[#ffd700] group-hover:scale-125 transition-transform">♦</span>

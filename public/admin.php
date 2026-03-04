@@ -9,8 +9,8 @@ if (!$is_admin) {
 }
 
 $adminData = getAdminData();
-$utilisateurs = $adminData['utilisateurs'];
-$jeux = $adminData['jeux'];
+$users = $adminData['users'];
+$games = $adminData['games'];
 
 loadEnv();
 Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
@@ -41,7 +41,7 @@ $genres = Database::getAllGenres();
             </h2>
             <span
                 class="bg-[#1a120b] text-[#ffd700] border border-[#b8860b] px-4 py-1 rounded text-sm font-bold shadow-inner">
-                <?php echo count($utilisateurs); ?> Inscrits
+                <?php echo count($users); ?> Inscrits
             </span>
         </div>
 
@@ -57,7 +57,7 @@ $genres = Database::getAllGenres();
                     </tr>
                 </thead>
                 <tbody class="text-[#f0d8a8] text-sm font-serif">
-                    <?php foreach ($utilisateurs as $user): ?>
+                    <?php foreach ($users as $user): ?>
                         <tr class="border-b border-[#4a3621]/50 hover:bg-[#3d2b1f] transition-colors">
                             <td class="p-4 font-bold text-white"><?php echo htmlspecialchars($user['username']); ?></td>
                             <td class="p-4 italic opacity-80"><?php echo htmlspecialchars($user['email']); ?></td>
@@ -115,37 +115,37 @@ $genres = Database::getAllGenres();
                     </tr>
                 </thead>
                 <tbody class="text-[#f0d8a8] text-sm font-serif">
-                    <?php foreach ($jeux as $jeu): ?>
+                    <?php foreach ($games as $game): ?>
                         <tr class="border-b border-[#4a3621]/50 hover:bg-[#3d2b1f] transition-colors group">
                             <td class="p-4">
                                 <div class="w-24 h-12 rounded border border-[#b8860b] overflow-hidden shadow-md">
-                                    <img src="<?php echo htmlspecialchars($jeu['image']); ?>"
+                                    <img src="<?php echo htmlspecialchars($game['image']); ?>"
                                         class="w-full h-full object-cover sepia-[0.2]">
                                 </div>
                             </td>
                             <td class="p-4">
-                                <div class="font-bold text-white text-base"><?php echo htmlspecialchars($jeu['title']); ?>
+                                <div class="font-bold text-white text-base"><?php echo htmlspecialchars($game['title']); ?>
                                 </div>
                                 <div class="text-[10px] text-gray-500 tracking-wider">Sortie :
-                                    <?php echo $jeu['release_year']; ?>
+                                    <?php echo $game['release_year']; ?>
                                 </div>
                             </td>
                             <td class="p-4 text-xs uppercase text-[#b8860b]">
-                                <?php echo Database::getGenreById($jeu['id_genre'])['name']; ?>
+                                <?php echo Database::getGenreById($game['id_genre'])['name']; ?>
                             </td>
                             <td class="p-4 text-center">
                                 <span
-                                    class="text-[10px] font-bold px-2 py-1 bg-black/50 rounded uppercase border <?php echo $diff_colors[$jeu['difficulty']]; ?>">
-                                    <?php echo $jeu['difficulty']; ?>
+                                    class="text-[10px] font-bold px-2 py-1 bg-black/50 rounded uppercase border <?php echo $diff_colors[$game['difficulty']]; ?>">
+                                    <?php echo $game['difficulty']; ?>
                                 </span>
                             </td>
                             <td class="p-4 text-right flex justify-end gap-2">
                                 <button
-                                    onclick='openEditGame(<?php echo json_encode($jeu, JSON_HEX_APOS | JSON_HEX_QUOT); ?>)'
+                                    onclick='openEditGame(<?php echo json_encode($game, JSON_HEX_APOS | JSON_HEX_QUOT); ?>)'
                                     class="bg-[#3d2b1f] hover:bg-[#b8860b] p-2 rounded border border-[#b8860b] shadow-md transition transform active:scale-95">
                                     <img src="assets/hammer.png" class="w-4 h-4">
                                 </button>
-                                <button onclick="openDeleteGame(<?php echo $jeu['id']; ?>)"
+                                <button onclick="openDeleteGame(<?php echo $game['id']; ?>)"
                                     class="bg-[#6b1111] hover:bg-[#8b1515] p-2 rounded border border-[#ffd700] shadow-md transition transform active:scale-95">
                                     <img src="assets/cross.png" class="w-4 h-4">
                                 </button>

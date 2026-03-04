@@ -1,11 +1,11 @@
 <?php
 include('components/header.php');
 
-$pageTitle = "Mon Profil - L'Auberge";
+$pageTitle = "Mon Profil - La Taverne";
 
 updateUserFormHandler();
 
-if (!$est_connecte) {
+if (!$is_connected) {
     header('Location: login.php');
     exit;
 }
@@ -64,7 +64,7 @@ unset($_SESSION['flash']);
                     </h3>
                     <div class="flex items-center gap-2">
                         <img src="assets/dust.png" class="w-8 h-8 drop-shadow-md">
-                        <span class="text-blue-300 font-black text-2xl"><?= $poussiere ?></span>
+                        <span class="text-blue-300 font-black text-2xl"><?= $dust ?></span>
                     </div>
                 </div>
 
@@ -194,14 +194,14 @@ unset($_SESSION['flash']);
                                 <label
                                     class="block text-[#b8860b] uppercase text-[10px] font-bold mb-1 tracking-wider">Nouveau
                                     Mot de Pouvoir</label>
-                                <input required name="new_password" type="password" placeholder="••••••••••••"
+                                <input name="new_password" type="password" placeholder="••••••••••••"
                                     class="w-full bg-[#1a120b] border border-[#b8860b]/50 rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#ffd700] transition-colors shadow-inner font-serif">
                             </div>
                             <div>
                                 <label
                                     class="block text-[#b8860b] uppercase text-[10px] font-bold mb-1 tracking-wider">Confirmer
                                     le Sceau</label>
-                                <input required name="confirm_password" type="password" placeholder="••••••••••••"
+                                <input name="confirm_password" type="password" placeholder="••••••••••••"
                                     class="w-full bg-[#1a120b] border border-[#b8860b]/50 rounded px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-[#ffd700] transition-colors shadow-inner font-serif">
                             </div>
                         </div>

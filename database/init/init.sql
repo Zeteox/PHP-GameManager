@@ -59,7 +59,7 @@ INSERT INTO genres (name) VALUES
 ('Puzzle');
 
 INSERT INTO users (username, email, password, role) VALUES
-('defaultadmin', 'admin@example.com', '$2y$12$.1bWmrDxoy4LHqoFf4HVhekhldvwq9nWLKqS97ocPWG3PKQG8Jgp2', 'admin');
+('admin', 'admin@example.com', '$2y$12$Q77FjdWrRl.ZpaF1M06LLuvWuzTjoxdsv7zIaaUs/I4qZHJ5HKaku', 'admin');
 
 INSERT INTO achievements (name, description, points, id_picture) VALUES
 ('First of Many', 'Add a game to your collection.', 10, 1),
