@@ -15,10 +15,12 @@ CREATE TABLE IF NOT EXISTS genres (
 CREATE TABLE IF NOT EXISTS games (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
+    id_genre INT NOT NULL,
     image TEXT NOT NULL,
     difficulty ENUM('Easy', 'Medium', 'Hard', 'Infernal') NOT NULL,
     release_year INT NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    FOREIGN KEY (id_genre) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS achievements (
@@ -27,14 +29,6 @@ CREATE TABLE IF NOT EXISTS achievements (
     description TEXT NOT NULL,
     points INT NOT NULL,
     id_picture INT NOT NULL DEFAULT 1
-);
-
-CREATE TABLE IF NOT EXISTS game_genres (
-    game_id INT NOT NULL,
-    genre_id INT NOT NULL,
-    PRIMARY KEY (game_id, genre_id),
-    FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS user_achievements (
@@ -76,3 +70,9 @@ INSERT INTO achievements (name, description, points, id_picture) VALUES
 ('Achievement Hunter', 'Earn 10 achievements.', 50, 6),
 ('Master Collector', 'Earn all achievements.', 100, 7);
 
+INSERT INTO games (title, id_genre, image, difficulty, release_year, description) VALUES
+('Cyberpunk 2077', 1, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg', 'Medium', 2020, 'Dive into a dystopian future filled with technology and danger.'),
+('Hollow Knight', 2, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/367520/header.jpg', 'Hard', 2017, 'Explore a beautifully hand-drawn world filled with secrets and challenging enemies.'),
+('Stardew Valley', 5, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg', 'Easy', 2016, 'Build your farm and live off the land in this charming simulation game.'),
+('Elden Ring', 3, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg', 'Infernal', 2022, 'Embark on a dark fantasy adventure in a vast open world filled with danger and mystery.'),
+('The Witcher 3: Wild Hunt', 3, 'https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg', 'Hard', 2015, 'Embark on a monster-hunting adventure in a richly detailed open world.');

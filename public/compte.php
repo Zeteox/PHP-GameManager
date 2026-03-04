@@ -11,7 +11,6 @@ if (!$est_connecte) {
 }
 
 loadEnv();
-
 Database::connect("mysql:host=" . getenv('DB_HOST') . ";dbname=" . getenv('DB_NAME') . ";charset=utf8", getenv('DB_USER'), getenv('DB_PASS'));
 $userData = Database::getUserById($_SESSION['user_id'] ?? 0);
 
@@ -127,7 +126,7 @@ Database::disconnect();
                     class="bg-gradient-to-br from-[#3d2b1f] to-[#1a120b] hover:from-[#4a3621] hover:to-[#2d1e12] border-2 border-[#b8860b] hover:border-[#ffd700] text-[#ffd700] p-6 rounded-xl shadow-[0_10px_20px_rgba(0,0,0,0.6)] flex flex-col items-center justify-center gap-3 group transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
                     <div
                         class="w-16 h-16 bg-[#1a120b] rounded-full border-2 border-[#b8860b] flex items-center justify-center shadow-inner group-hover:border-[#ffd700] transition-colors relative z-10">
-                        <img src="assets/achievement/cardPack34.png"
+                        <img src="assets/achievement/cardPack8.png"
                             class="w-12 h-12 object-contain drop-shadow-lg group-hover:scale-110 transition-transform">
                     </div>
                     <span

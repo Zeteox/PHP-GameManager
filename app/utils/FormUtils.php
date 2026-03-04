@@ -1,6 +1,5 @@
 <?php
 function LoginRegisterFormHandler() {
-    session_start();
     loadEnv();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -82,7 +81,6 @@ function LoginRegisterFormHandler() {
 }
 
 function updateUserFormHandler() {
-    session_start();
     loadEnv();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

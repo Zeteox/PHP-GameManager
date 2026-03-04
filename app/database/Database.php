@@ -137,7 +137,7 @@ class Database {
 
     public static function getAllGamesFromUser(int $userId): array
     {
-        $sql = "SELECT g.* FROM games g
+        $sql = "SELECT g.*, ug.added_at, ug.played_times FROM games g
                 JOIN user_games ug ON g.id = ug.game_id
                 WHERE ug.user_id = ?";
         $stmt = self::getConnection()->prepare($sql);
@@ -262,17 +262,6 @@ class Database {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAllGenresFromGame(int $userId): array
-    {
-        $sql = "SELECT g.* FROM genres g
-                JOIN game_genres gg ON g.id = gg.genre_id
-                JOIN user_games ug ON gg.game_id = ug.game_id
-                WHERE ug.user_id = ?";
-        $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public static function getGenreById(int $genreId): ?array
     {
         $sql = "SELECT * FROM genres WHERE id = ?";
@@ -290,25 +279,11 @@ class Database {
         return $stmt;
     }
 
-    public static function addGenreToGame(int $gameId, int $genreId): void
-    {
-        $sql = "INSERT INTO game_genres (game_id, genre_id) VALUES (?, ?)";
-        $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$gameId, $genreId]);
-    }
-
     public static function deleteGenre(int $genreId): void
     {
         $sql = "DELETE FROM genres WHERE id = ?";
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute([$genreId]);
-    }
-
-    public static function deleteGenreFromGame(int $gameId): void
-    {
-        $sql = "DELETE FROM game_genres WHERE game_id = ?";
-        $stmt = self::getConnection()->prepare($sql);
-        $stmt->execute([$gameId]);
     }
 }
 ?>
